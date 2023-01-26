@@ -1,0 +1,223 @@
+<!--ideas taken from https://alvarotrigo.com/blog/10-cool-css-animations-to-add-to-your-website/-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rugby Team Sheet Creator</title>
+    <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/index.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon">  
+
+
+
+  </head>
+  <body onload="changeScene(111)">
+    <p id="pInBody"></p>
+    <footer class="pt-5 my-5 text-muted border-top">
+    <div class="container text-center">
+      <p>Created in part by the Bootstrap team &middot; &copy; 2022</p>
+    </div>
+  </footer></body>
+  <script src="index.js"></script>
+  <script src="player.js"></script>
+  <script src="team.js"></script>
+  <script src="playerSearch.js"></script>
+  <script src="teamSearch.js"></script>
+  <script src="assignPlayer.js"></script>
+  <script src="teamSheetPlayer.js"></script>
+
+
+  <template id="111">
+    <!--scene number 111 - NAVBAR-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button onclick="changeScene(0)" class="glow-on-hover" type="button">Home</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav nav-justifiednavbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <button onclick="changeScene(16)" id="playerbtn" class="glow-on-hover" aria-current="page" type="button">Players</button>
+            </li>
+            <li class="nav-item">
+              <button onclick="changeScene(26)" class="glow-on-hover" aria-current="page" type="button">Teams</button>
+            </li>
+            <li class="nav-item">
+              <button onclick="changeScene(36)" class="glow-on-hover" aria-current="page" type="button">Team sheet</button>
+            </li>
+          </ul>
+          
+        </div>
+      </div>
+    </nav>
+
+    
+  </template>
+
+  <template id="0">
+    <!--scene number 0 - HOME-->
+    <h1 id="title">Rugby Team Sheet Creator</h1>
+    
+    <p>This single page application has been designed so that you can create a team sheet for your rugby matches</p>
+    <p>Please click on one of the tabs above to start</p>
+  
+  
+  
+  </template>
+
+  <template id="16">
+    <!--scene number 1 - PLAYERS-->
+    <h1>Players</h1>
+    <p>Use this page to create profiles for members in your team</p>
+    <p>Fill in the form below with your player's details and press submit to save the profile</p>
+    <p>There is a maximum number of letter for the player name so it is recommended that you use their first name and the initial of their last name</p>
+
+    <form id="playerForm" onsubmit=addPlayer(event)>
+      <label for="fname">First Name and Last Name Initial(s):</label><br>
+      <input type="text" name="fname" maxlength="10" required><br><br>
+
+      <label for="pos">Position:</label><br>
+      <input type="number" name="pos" min="1" max="15" required><br><br>
+
+      <label for="create">Create:</label><br>
+      <input type="submit" id="submit" name="submit" class="glow-on-hover"><br><br>
+    </form>
+
+    <p>Click here to reveal all the players you've created so far<br>
+      
+      <button class="glow-on-hover" type="button" name="showButton" id="showButton" onclick="listPlayers('playerList')">Show</button>
+      <ul id='playerList'></ul>
+      </p>
+      <div id="player_results"></div>
+
+  </template>
+
+
+
+  <template id="26">
+    <!--scene number 2 - TEAMS-->
+    <h1>Teams</h1>
+    <p>Use this page to create your team</p>
+    <p>Fill in the form below with your team's details and press submit to save the profile</p>
+
+    <form id="teamForm" onsubmit=addTeam(event)>
+      <label for="tname">Team name:</label><br>
+      <input type="text" name="tname" required><br><br>
+
+      <label for="hometown">Home Town:</label><br>
+      <input type="text" name="hometown"required><br><br>
+
+      <label for="create">Create:</label><br>
+      <input type="submit" id="submit" name="submit" class="glow-on-hover"><br><br>
+    </form>
+
+    <p>Click here to reveal all the teams you've created so far<br>
+    
+    
+      <button class="glow-on-hover" type="button" name="showButton" id="showButton" onclick=listTeams()>Show</button>
+      <ul id='teamList'></ul>
+      </p>
+      <div id="team_results"></div>
+    </p>
+    <br><br>
+
+    <p>Use the form below to assign players to teams</p>
+    <p>The players and teams you have created so far will appear in a respective dropdown menu</p>
+    <p>Once you have selected the player and team press submit to save the assignment</p>
+    <form id="assignPlayerForm" onsubmit="assignPlayer(event)">
+      <label for="playerName">Player:</label><br>
+      <input type="search" id="playerSearch" name="playerName" placeholder="Search for players..." list="playerDataList" maxlength="10" required><br><br>
+
+      <label for="teamName">Team:</label><br>
+      <input type="search" id="teamSearch" name="teamSearch" placeholder="Search for teams..." list="teamDataList" required><br><br>
+
+      <input type="submit" id="submit" name="submit" class="glow-on-hover"><br><br>
+    </form>
+
+    
+
+    
+  </template>
+
+
+  <template id="36">
+    <!--scene number 3 - TEAM SHEET-->
+    <h1>Team Sheet</h1>
+    <p>Use this page to create a team sheet for your team</p>
+    <p>The dropdown menu below allows you to select which team you want to create the Team Sheet for</p>
+    <p>Once you have selected a team press submit to see all the players on that team</p>
+
+    <form id="teamSheetSelectTeam" onsubmit=addPlayerTS(event)>
+      <label for="teamName">Select a team:</label><br>
+      <input type="search" id="teamSearch" name="teamSearch" placeholder="Search for teams..." list="teamDataList" required><br><br>
+      <input type="submit" id="submit" name="submit" class="glow-on-hover"><br><br>
+    </form>
+    <p>Players on this team:</p>
+    <ul id='playerListTS'></ul>
+
+    <p>Available players for this position:</p>
+    <ul id='playerListTS2'></ul>
+
+    <p>Click on the red dots below to see which players can play in the position selected</p>
+    <p>These players will appear above, under the heading 'Available players for this position:'</p>
+    <p>To add the player to the Team Sheet click on their name</p>
+      
+    <div class="container">
+      <img src="../assets/images/rugby_pitch.jpg" alt="Rugby Pitch" usemap="#rugbymap">
+      <div class="looseHead" id="1"></div>
+      <div class="hooker" id="2"></div>
+      <div class="tightHead" id="3"></div>
+      <div class="lockL" id="4"></div>
+      <div class="lockR" id="5"></div>
+      <div class="flankerL" id="6"></div>
+      <div class="flankerR" id="7"></div>
+      <div class="number8" id="8"></div>
+      <div class="scrumHalf" id="9"></div>
+      <div class="flyHalf" id="10"></div>
+      <div class="wingerL" id="11"></div>
+      <div class="centreL" id="12"></div>
+      <div class="centreR" id="13"></div>
+      <div class="wingerR" id="14"></div>
+      <div class="fullBack" id="15"></div>
+    </div>
+    
+    <map name="rugbymap">
+      <area class="pointer" shape="circle" coords="52, 38, 18" alt="loose head, 1" onclick="playersForPos('1')">
+      <area class="pointer" shape="circle" coords="138, 38, 18" alt="hooker, 2" onclick="playersForPos('2')">
+      <area class="pointer" shape="circle" coords="231, 38, 18" alt="tight head, 3" onclick="playersForPos('3')">
+      <area class="pointer" shape="circle" coords="95, 115, 18" alt="lock L, 4" onclick="playersForPos('4')">
+      <area class="pointer" shape="circle" coords="185, 115, 18" alt="lock R, 5" onclick="playersForPos('5')">
+      <area class="pointer" shape="circle" coords="52, 192, 18" alt="flanker L, 6" onclick="playersForPos('6')">
+      <area class="pointer" shape="circle" coords="231, 192, 18" alt="flanker R, 7" onclick="playersForPos('7')">
+      <area class="pointer" shape="circle" coords="140, 208, 18" alt="number 8, 8" onclick="playersForPos('8')">
+      <area class="pointer" shape="circle" coords="186, 291, 18" alt="scrum half, 9" onclick="playersForPos('9')">
+      <area class="pointer" shape="circle" coords="232, 344, 18" alt="fly half, 10" onclick="playersForPos('10')">
+      <area class="pointer" shape="circle" coords="52, 403, 18" alt="winger L, 11" onclick="playersForPos('11')">
+      <area class="pointer" shape="circle" coords="286, 403, 18" alt="centre L, 12" onclick="playersForPos('12')">
+      <area class="pointer" shape="circle" coords="340, 459, 18" alt="centre R, 13" onclick="playersForPos('13')">
+      <area class="pointer" shape="circle" coords="396, 511, 18" alt="winger R, 14" onclick="playersForPos('14')">
+      <area class="pointer" shape="circle" coords="220, 553, 18" alt="full back, 15" onclick="playersForPos('15')">
+    </map>
+    
+
+  </template>
+
+  
+  <datalist id="playerDataList">
+
+  </datalist>
+
+  <datalist id="teamDataList">
+
+  </datalist>
+
+  <template id="9999">
+    <p>Sorry but it appears that the server is experiencing some issues, please try again later</p>
+  </template>
+
+</html>

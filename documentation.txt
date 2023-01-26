@@ -1,0 +1,2 @@
+Link for the postman documentation:
+https://documenter.getpostman.com/view/25470264/2s8ZDczfDE
